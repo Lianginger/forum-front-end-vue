@@ -10,6 +10,7 @@
       </div>
       <div class="col-md-6">
         <h3>最新評論</h3>
+        <NewestCommets :comments="comments" />
       </div>
     </div>
   </div>
@@ -18,6 +19,7 @@
 <script>
 import NavTabs from '../components/NavTabs'
 import NewestRestaurants from '../components/NewestRestaurant'
+import NewestCommets from '../components/NewestComment'
 
 const dummyData = {
   restaurants: [
@@ -231,7 +233,8 @@ const dummyData = {
 export default {
   components: {
     NavTabs,
-    NewestRestaurants
+    NewestRestaurants,
+    NewestCommets
   },
   data() {
     return {
