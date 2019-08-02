@@ -2,7 +2,7 @@
   <div class="container py-5">
     <NavTabs />
     <!-- 餐廳類別標籤 RestaurantsNavPills -->
-
+    <RestaurantsNavPills :categories="categories" />
     <div class="row">
       <!-- 餐廳卡片 RestaurantCard-->
       <RestaurantCard
@@ -19,6 +19,7 @@
 <script>
 import NavTabs from '../components/NavTabs.vue'
 import RestaurantCard from '../components/RestaurantCard'
+import RestaurantsNavPills from '../components/RestaurantsNavPills'
 import { duration } from 'moment'
 
 const dummyData = {
@@ -298,7 +299,8 @@ const dummyData = {
 export default {
   components: {
     NavTabs,
-    RestaurantCard
+    RestaurantCard,
+    RestaurantsNavPills
   },
   data() {
     return {
