@@ -7,7 +7,7 @@
           v-if="currentUser.isAdmin"
           type="button"
           class="btn btn-danger float-right"
-          @click.stop.prevent="deleteComment(comment.id)"
+          @click.stop.prevent="handleDeleteButtonClick(comment.id)"
         >Delete</button>
         <h3>
           <a href="#">{{comment.User.name}}</a>
@@ -44,6 +44,12 @@ export default {
   data() {
     return {
       currentUser: dummyUser.currentUser
+    }
+  },
+  methods: {
+    handleDeleteButtonClick(commentId) {
+      // 請求 API 伺服器刪除 id 為 commentId 的評論
+      this.$emit('after-delete-comment', commentId)
     }
   }
 }
