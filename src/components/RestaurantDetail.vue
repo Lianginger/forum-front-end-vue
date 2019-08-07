@@ -5,12 +5,7 @@
       <p class="badge badge-secondary mt-1 mb-3">{{restaurant.categoryName}}</p>
     </div>
     <div class="col-lg-4">
-      <img
-        :src="restaurant.image"
-        :alt="restaurant.name"
-        class="img-responsive center-block"
-        style="width: 250px; margin-bottom: 25px"
-      />
+      <img :src="restaurant.image" :alt="restaurant.name" class="img-responsive center-block" style="width: 250px; margin-bottom: 25px" />
       <div class="contact-info-wrap">
         <ul class="list-unstyled">
           <li>
@@ -30,23 +25,13 @@
     </div>
     <div class="col-lg-8">
       <p>{{restaurant.description}}</p>
-      <a href="#" class="btn btn-primary btn-border mr-2">Dashboard</a>
+      <router-link :to="{name: 'restaurant-dashboard',params: {id:restaurant.id}}" class="btn btn-primary btn-border mr-2">Dashboard</router-link>
 
-      <button
-        v-if="restaurant.isFavorited"
-        type="button"
-        class="btn btn-danger btn-border mr-2"
-        @click="deleteFavorite"
-      >移除最愛</button>
+      <button v-if="restaurant.isFavorited" type="button" class="btn btn-danger btn-border mr-2" @click="deleteFavorite">移除最愛</button>
 
       <button v-else type="button" class="btn btn-primary btn-border mr-2" @click="addFavorite">加到最愛</button>
 
-      <button
-        v-if="restaurant.isLiked"
-        type="button"
-        class="btn btn-danger btn-border mr-2"
-        @click="deleteLike"
-      >Unlike</button>
+      <button v-if="restaurant.isLiked" type="button" class="btn btn-danger btn-border mr-2" @click="deleteLike">Unlike</button>
 
       <button v-else type="button" class="btn btn-primary btn-border mr-2" @click="addLike">Like</button>
     </div>
