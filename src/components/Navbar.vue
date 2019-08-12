@@ -16,7 +16,7 @@
     <div id="navbarSupportedContent" class="navbar-collapse collapse">
       <div class="ml-auto d-flex align-items-center">
         <!-- is user is admin -->
-        <router-link v-if="currentUser.isAdmin" to="#" class="text-white mr-3">管理員後台</router-link>
+        <router-link v-if="currentUser.isAdmin" :to="{name:'admin-restaurants'}" class="text-white mr-3">管理員後台</router-link>
 
         <!-- is user is login -->
         <template v-if="isAuthenticated">
@@ -32,39 +32,39 @@
 const dummyUser = {
   currentUser: {
     id: 1,
-    name: "管理者",
-    email: "root@example.com",
-    image: "https://i.pravatar.cc/300",
+    name: '管理者',
+    email: 'root@example.com',
+    image: 'https://i.pravatar.cc/300',
     isAdmin: true
   },
   isAuthenticated: true
-};
+}
 
 export default {
-  name: "Navbar",
+  name: 'Navbar',
   data() {
     return {
       currentUser: {
         id: -1,
-        name: "",
-        email: "",
-        image: "",
-        isAdmin: ""
+        name: '',
+        email: '',
+        image: '',
+        isAdmin: ''
       },
       isAuthenticated: false
-    };
+    }
   },
   created() {
-    this.fetchUser();
+    this.fetchUser()
   },
   methods: {
     fetchUser() {
       this.currentUser = {
         ...this.currentUser,
         ...dummyUser.currentUser
-      };
-      this.isAuthenticated = dummyUser.isAuthenticated;
+      }
+      this.isAuthenticated = dummyUser.isAuthenticated
     }
   }
-};
+}
 </script>

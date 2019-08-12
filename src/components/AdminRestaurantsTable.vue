@@ -28,7 +28,7 @@
         <td class="d-flex justify-content-between">
           <router-link :to="{name: 'admin-restaurant',params: {id:restaurant.id}}">Show</router-link>
           <a href="#" class="btn btn-link">Edit</a>
-          <a href="#" class="btn btn-link">Delete</a>
+          <a href="#" class="btn btn-link" @click.stop.prevent="deleteRestaurant(restaurant.id)">Delete</a>
         </td>
       </tr>
     </tbody>
@@ -984,6 +984,11 @@ export default {
   methods: {
     fetchRestaurants(){
       this.restaurants = dummyData.restaurants
+    },
+    deleteRestaurant(restaurantId){
+        this.restaurants = this.restaurants.filter(restaurant => {
+            return restaurant.id !== restaurantId
+        })
     }
   }
 }
