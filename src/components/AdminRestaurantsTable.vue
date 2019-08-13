@@ -26,8 +26,8 @@
         <td>{{restaurant.Category && restaurant.Category.name}}</td>
         <td>{{restaurant.name}}</td>
         <td class="d-flex justify-content-between">
-          <router-link :to="{name: 'admin-restaurant',params: {id:restaurant.id}}">Show</router-link>
-          <a href="#" class="btn btn-link">Edit</a>
+          <router-link :to="{name: 'admin-restaurant',params: {id:restaurant.id}}" class="btn btn-link">Show</router-link>
+          <router-link :to="{name: 'admin-restaurant-edit', params: {id:restaurant.id}}" class="btn btn-link">Edit</router-link>
           <a href="#" class="btn btn-link" @click.stop.prevent="deleteRestaurant(restaurant.id)">Delete</a>
         </td>
       </tr>
