@@ -1,40 +1,93 @@
 <template>
-  <form>
+  <form @submit.stop.prevent="handleSubmit">
     <div class="form-group">
       <label for="name">Name</label>
-      <input v-model="restaurant.name" id="name" type="text" class="form-control" name="name" placeholder="Enter name" required />
+      <input
+        v-model="restaurant.name"
+        id="name"
+        type="text"
+        class="form-control"
+        name="name"
+        placeholder="Enter name"
+        required
+      />
     </div>
     <div class="form-group">
       <label for="categoryId">Category</label>
-      <select v-model="restaurant.categoryId" id="categoryId" type="text" class="form-control" name="categoryId" required>
+      <select
+        v-model="restaurant.categoryId"
+        id="categoryId"
+        type="text"
+        class="form-control"
+        name="categoryId"
+        required
+      >
         <option value selected disabled>--請選擇--</option>
-        <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+        <option
+          v-for="category in categories"
+          :key="category.id"
+          :value="category.id"
+        >{{category.name}}</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="tel">Tel</label>
-      <input v-model="restaurant.tel" id="tel" type="text" class="form-control" name="tel" placeholder="Enter telephone number" />
+      <input
+        v-model="restaurant.tel"
+        id="tel"
+        type="text"
+        class="form-control"
+        name="tel"
+        placeholder="Enter telephone number"
+      />
     </div>
 
     <div class="form-group">
       <label for="address">Address</label>
-      <input v-model="restaurant.address" id="address" type="text" class="form-control" name="address" placeholder="Enter address" />
+      <input
+        v-model="restaurant.address"
+        id="address"
+        type="text"
+        class="form-control"
+        name="address"
+        placeholder="Enter address"
+      />
     </div>
 
     <div class="form-group">
       <label for="opening-hours">Opening Hours</label>
-      <input  v-model="restaurant.openingHours" id="opening-hours" type="time" class="form-control" name="opening_hours" />
+      <input
+        v-model="restaurant.openingHours"
+        id="opening-hours"
+        type="time"
+        class="form-control"
+        name="opening_hours"
+      />
     </div>
 
     <div class="form-group">
       <label for="description">Description</label>
-      <textarea v-model="restaurant.description" id="description" class="form-control" rows="3" name="description" />
+      <textarea
+        v-model="restaurant.description"
+        id="description"
+        class="form-control"
+        rows="3"
+        name="description"
+      />
     </div>
 
     <div class="form-group">
       <label for="image">Image</label>
-      <input id="image" type="file" class="form-control-file" name="image" accept="image/*" />
+      <img :src="restaurant.image" class="d-block img-thumbnail mb-3" width="200" height="200" />
+      <input
+        id="image"
+        type="file"
+        class="form-control-file"
+        name="image"
+        accept="image/*"
+        @change="handleFileChange"
+      />
     </div>
 
     <button type="summit" class="btn btn-primary">送出</button>
@@ -92,6 +145,17 @@ export default {
   methods: {
     fetchCategories() {
       this.categories = dummyData.categories
+    },
+    handleFileChange(e) {
+      const files = e.target.files
+      if (!files.length) return
+      const imageURL = window.URL.createObjectURL(files[0])
+      this.restaurant.image = imageURL
+    },
+    handleSubmit(e) {
+      const form = e.target
+      const formData = new FormData(form)
+      this.$emit('after-submit', formData)
     }
   }
 }
