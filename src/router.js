@@ -60,6 +60,11 @@ export default new Router({
       redirect: '/admin/restaurants'
     },
     {
+      path: '/admin/categories',
+      name: 'admin-categories',
+      component: () => import('./views/AdminCategories.vue')
+    },
+    {
       path: '/admin/restaurants',
       name: 'admin-restaurants',
       component: () => import('./views/AdminRestaurants.vue')
