@@ -30,7 +30,7 @@
 
 <script>
 import authorizationAPI from '../apis/authorization'
-import authorization from '../apis/authorization'
+import { Toast } from '../utils/helpers'
 
 export default {
   name: 'SignIn',
@@ -42,6 +42,16 @@ export default {
   },
   methods: {
     handleSubmit() {
+      const vm = this
+      if (!this.email || !this.password) {
+        Toast.fire({
+          type: 'warning',
+          title: '請填入 email 和 password'
+        })
+
+        return
+      }
+
       authorizationAPI
         .signIn({
           email: this.email,
@@ -56,6 +66,12 @@ export default {
         })
         .catch(function(error) {
           console.log(error.response.data)
+          Toast.fire({
+            type: 'warning',
+            title: '請確認，您輸入的帳號密碼有錯誤'
+          })
+
+          vm.password = ''
         })
     }
   }
