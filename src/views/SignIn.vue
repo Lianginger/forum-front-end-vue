@@ -15,7 +15,7 @@
         <input id="password" v-model="password" name="password" type="password" class="form-control" placeholder="Password" required />
       </div>
 
-      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Submit</button>
+      <button :disabled="isProcessing" class="btn btn-lg btn-primary btn-block mb-3" type="submit">Submit</button>
 
       <div class="text-center mb-3">
         <p>
@@ -37,42 +37,44 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      isProcessing: false
     }
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       const vm = this
-      if (!this.email || !this.password) {
-        Toast.fire({
-          type: 'warning',
-          title: '請填入 email 和 password'
-        })
 
-        return
-      }
+      try {
+        if (!this.email || !this.password) {
+          Toast.fire({
+            type: 'warning',
+            title: '請填入 email 和 password'
+          })
 
-      authorizationAPI
-        .signIn({
+          return
+        }
+
+        vm.isProcessing = true
+
+        const response = await authorizationAPI.signIn({
           email: this.email,
           password: this.password
         })
-        .then(response => {
-          console.log('response', response)
 
-          const { data } = response
-          localStorage.setItem('token', data.token)
-          this.$router.push('/restaurants')
-        })
-        .catch(function(error) {
-          console.log(error.response.data)
-          Toast.fire({
-            type: 'warning',
-            title: '請確認，您輸入的帳號密碼有錯誤'
-          })
+        const { data } = response
 
-          vm.password = ''
+        localStorage.setItem('token', data.token)
+        vm.$router.push('/restaurants')
+      } catch (error) {
+        console.log(error.response.data)
+        Toast.fire({
+          type: 'warning',
+          title: '請確認，您輸入的帳號密碼有錯誤'
         })
+        vm.isProcessing = false
+        vm.password = ''
+      }
     }
   }
 }
