@@ -27,6 +27,8 @@ import NavTabs from '../components/NavTabs.vue'
 import RestaurantCard from '../components/RestaurantCard'
 import RestaurantsNavPills from '../components/RestaurantsNavPills'
 import RestaurantsPagination from '../components/RestaurantsPagination'
+import restaurantAPI from '../apis/restaurants'
+import { Toast } from '../utils/helpers'
 
 const dummyData = {
   restaurants: [
@@ -37,8 +39,7 @@ const dummyData = {
       address: '79554 Kassulke Radial',
       opening_hours: '08:00',
       description: 'Et quam iste nulla ut et distinctio sunt omnis rec',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=25.932072460400413',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=25.932072460400413',
       viewCounts: 1,
       createdAt: '2019-07-30T16:24:55.440Z',
       updatedAt: '2019-07-31T04:26:33.945Z',
@@ -59,8 +60,7 @@ const dummyData = {
       address: '52148 Susan Pike',
       opening_hours: '08:00',
       description: 'non nobis quo',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=77.93437663958767',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=77.93437663958767',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.439Z',
       updatedAt: '2019-07-30T16:24:55.439Z',
@@ -81,8 +81,7 @@ const dummyData = {
       address: '8718 Nolan Roads',
       opening_hours: '08:00',
       description: 'Ipsum aspernatur quis est voluptates maiores quam ',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=51.62937107379864',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=51.62937107379864',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.438Z',
       updatedAt: '2019-07-30T16:24:55.438Z',
@@ -103,8 +102,7 @@ const dummyData = {
       address: '5559 VonRueden Courts',
       opening_hours: '08:00',
       description: 'Aliquid numquam hic. Minima perferendis quia cum t',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=37.9512586281334',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=37.9512586281334',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.438Z',
       updatedAt: '2019-07-30T16:24:55.438Z',
@@ -125,8 +123,7 @@ const dummyData = {
       address: '543 Waters Bypass',
       opening_hours: '08:00',
       description: 'Ea voluptate fugiat id est voluptatem sit. Aut deb',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=47.513014434319146',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=47.513014434319146',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.437Z',
       updatedAt: '2019-07-30T16:24:55.437Z',
@@ -147,8 +144,7 @@ const dummyData = {
       address: '75754 Ashlynn Field',
       opening_hours: '08:00',
       description: 'Et dolores non harum. Non autem dolorem deserunt. ',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=46.018008252855424',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=46.018008252855424',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.436Z',
       updatedAt: '2019-07-30T16:24:55.436Z',
@@ -169,8 +165,7 @@ const dummyData = {
       address: '138 Quinn Street',
       opening_hours: '08:00',
       description: 'quos dolore tenetur',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=43.25768589113377',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=43.25768589113377',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.434Z',
       updatedAt: '2019-07-30T16:24:55.434Z',
@@ -191,8 +186,7 @@ const dummyData = {
       address: '44890 Dominique Wall',
       opening_hours: '08:00',
       description: 'dolorem ratione et',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=67.08831513935154',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=67.08831513935154',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.443Z',
       updatedAt: '2019-07-30T16:24:55.443Z',
@@ -213,8 +207,7 @@ const dummyData = {
       address: '3318 Feeney Hollow',
       opening_hours: '08:00',
       description: 'beatae iste alias',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=71.34426799459621',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=71.34426799459621',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.442Z',
       updatedAt: '2019-07-30T16:24:55.442Z',
@@ -235,8 +228,7 @@ const dummyData = {
       address: '647 Yundt Mountains',
       opening_hours: '08:00',
       description: 'Incidunt rerum perspiciatis ut iste ipsum labore.',
-      image:
-        'https://loremflickr.com/320/240/restaurant,food/?random=15.902129223636363',
+      image: 'https://loremflickr.com/320/240/restaurant,food/?random=15.902129223636363',
       viewCounts: null,
       createdAt: '2019-07-30T16:24:55.441Z',
       updatedAt: '2019-07-30T16:24:55.441Z',
@@ -319,15 +311,40 @@ export default {
     }
   },
   created() {
-    this.fetchRestaurants()
+    const { page, categoryId } = this.$route.query
+    this.fetchRestaurants({
+      page,
+      categoryId
+    })
+  },
+  beforeRouteUpdate(to, from, next) {
+    const { page, categoryId } = to.query
+    this.fetchRestaurants({ page, categoryId })
+    next()
   },
   methods: {
-    fetchRestaurants() {
-      this.categories = dummyData.categories
-      this.categoryId = dummyData.categoryId
-      this.currentPage = dummyData.page
-      this.restaurants = dummyData.restaurants
-      this.totalPage = dummyData.totalPage.length
+    async fetchRestaurants({ page = 1, categoryId = '' }) {
+      try {
+        const { data, statusText } = await restaurantAPI.getRestaurants({
+          page,
+          categoryId
+        })
+
+        if (statusText !== 'OK') {
+          throw new Error(statusText)
+        }
+        this.categories = data.categories
+        this.categoryId = data.categoryId
+        this.currentPage = data.page
+        this.restaurants = data.restaurants
+        this.totalPage = data.totalPage.length
+      } catch (error) {
+        Toast.fire({
+          type: 'error',
+          title: '無法取得餐廳資料，請稍後再試'
+        })
+        console.log('error', error)
+      }
     }
   }
 }
