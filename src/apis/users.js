@@ -36,5 +36,15 @@ export default {
     return apiHelper.delete(`/following/${userId}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
+  },
+  getCurrentUser() {
+    return apiHelper.get('/get_current_user', {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+  },
+  get(userId) {
+    return apiHelper.get(`/users/${userId}`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
   }
 }

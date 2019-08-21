@@ -65,6 +65,7 @@ export default {
         const { data } = response
 
         localStorage.setItem('token', data.token)
+        this.$store.commit('setCurrentUser', data.user)
         vm.$router.push('/restaurants')
       } catch (error) {
         console.log(error.response.data)
