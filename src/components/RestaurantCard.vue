@@ -10,16 +10,24 @@
         <p class="card-text text-truncate">{{restaurant.description}}</p>
       </div>
       <div class="card-footer">
-        <button v-if="restaurant.isFavorited" @click.stop.prevent="deleteFavorite" type="button" class="btn btn-danger btn-border favorite mr-2">移除最愛</button>
-        <button v-else @click.stop.prevent="addFavorite" type="button" class="btn btn-primary btn-border favorite mr-2">加到最愛</button>
-        <button v-if="restaurant.isLiked" @click.stop.prevent="deleteLike" type="button" class="btn btn-danger like mr-2">Unlike</button>
-        <button v-else @click.stop.prevent="addLike" type="button" class="btn btn-primary like mr-2">Like</button>
+        <button
+          v-if="restaurant.isFavorited"
+          @click.stop.prevent="deleteFavorite(restaurant.id)"
+          type="button"
+          class="btn btn-danger btn-border favorite mr-2"
+        >移除最愛</button>
+        <button v-else @click.stop.prevent="addFavorite(restaurant.id)" type="button" class="btn btn-primary btn-border favorite mr-2">加到最愛</button>
+        <button v-if="restaurant.isLiked" @click.stop.prevent="deleteLike(restaurant.id)" type="button" class="btn btn-danger like mr-2">Unlike</button>
+        <button v-else @click.stop.prevent="addLike(restaurant.id)" type="button" class="btn btn-primary like mr-2">Like</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import usersAPI from '../apis/users'
+import { Toast } from '../utils/helpers'
+
 export default {
   props: {
     initialRestaurant: {
@@ -33,17 +41,64 @@ export default {
     }
   },
   methods: {
-    addFavorite() {
-      this.restaurant.isFavorited = true
+    async addFavorite(restaurantId) {
+      try {
+        const { data, statusText } = await usersAPI.addFavorite({ restaurantId })
+        console.log(data, statusText)
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
+        }
+        this.restaurant.isFavorited = true
+      } catch (error) {
+        Toast.fire({
+          type: 'error',
+          title: '無法將餐廳加入最愛，請稍後再試'
+        })
+      }
     },
-    deleteFavorite() {
-      this.restaurant.isFavorited = false
+    async deleteFavorite(restaurantId) {
+      try {
+        const { data, statusText } = await usersAPI.deleteFavorite({
+          restaurantId
+        })
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
+        }
+        this.restaurant.isFavorited = false
+      } catch (error) {
+        Toast.fire({
+          type: 'error',
+          title: '無法將餐廳從最愛移除，請稍後再試'
+        })
+      }
     },
-    addLike() {
-      this.restaurant.isLiked = true
+    async addLike(restaurantId) {
+      try {
+        const { data, statusText } = await usersAPI.addLike(restaurantId)
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
+        }
+        this.restaurant.isLiked = true
+      } catch (error) {
+        Toast.fire({
+          type: 'error',
+          title: '無法將餐廳加入 Like，請稍後再試'
+        })
+      }
     },
-    deleteLike() {
-      this.restaurant.isLiked = false
+    async deleteLike(restaurantId) {
+      try {
+        const { data, statusText } = await usersAPI.deleteLike(restaurantId)
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
+        }
+        this.restaurant.isLiked = false
+      } catch (error) {
+        Toast.fire({
+          type: 'error',
+          title: '無法將餐廳從 Like 移除，請稍後再試'
+        })
+      }
     }
   }
 }
