@@ -28,9 +28,14 @@
               v-if="restaurant.isFavorited"
               type="button"
               class="btn btn-danger mr-2"
-              @click="deleteFavorite(index)"
+              @click="deleteFavorite(index, restaurant.id)"
             >移除最愛</button>
-            <button v-else type="button" class="btn btn-primary" @click="addFavorite(index)">加到最愛</button>
+            <button
+              v-else
+              type="button"
+              class="btn btn-primary"
+              @click="addFavorite(index, restaurant.id)"
+            >加到最愛</button>
           </div>
         </div>
       </div>
@@ -41,6 +46,7 @@
 <script>
 import NavTabs from '../components/NavTabs'
 import restaurantAPI from '../apis/restaurants'
+import usersAPI from '../apis/users'
 import { Toast } from '../utils/helpers'
 
 export default {
@@ -72,11 +78,37 @@ export default {
         console.log('error', error)
       }
     },
-    deleteFavorite(index) {
-      this.restaurants[index].isFavorited = false
+    async deleteFavorite(index, restaurantId) {
+      try {
+        const { data, statusText } = await usersAPI.deleteFavorite({
+          restaurantId
+        })
+        console.log(data, statusText)
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
+        }
+        this.restaurants[index].isFavorited = false
+      } catch (error) {
+        Toast.fire({
+          type: 'error',
+          title: '無法將餐廳從最愛移除，請稍後再試'
+        })
+      }
     },
-    addFavorite(index) {
-      this.restaurants[index].isFavorited = true
+    async addFavorite(index, restaurantId) {
+      try {
+        const { data, statusText } = await usersAPI.addFavorite({ restaurantId })
+        console.log(data, statusText)
+        if (statusText !== 'OK' || data.status !== 'success') {
+          throw new Error(statusText)
+        }
+        this.restaurants[index].isFavorited = true
+      } catch (error) {
+        Toast.fire({
+          type: 'error',
+          title: '無法將餐廳加入最愛，請稍後再試'
+        })
+      }
     }
   }
 }
