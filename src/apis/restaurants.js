@@ -11,5 +11,8 @@ export default {
   },
   getRestaurantsFeeds() {
     return apiHelper.get('/restaurants/feeds')
+  },
+  getTopRestaurants(){
+    return apiHelper.get('/restaurants/top')
   }
 }
